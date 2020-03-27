@@ -22,16 +22,16 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
-
 import com.kunminx.architecture.data.manager.NetworkStateManager;
 import com.kunminx.architecture.utils.AdaptScreenUtils;
 import com.kunminx.architecture.utils.BarUtils;
 import com.kunminx.architecture.utils.ScreenUtils;
 import com.kunminx.puremusic.App;
 import com.kunminx.puremusic.bridge.callback.SharedViewModel;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 /**
  * Create by KunMinX at 19/8/1
@@ -80,6 +80,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected ViewModelProvider getActivityViewModelProvider(AppCompatActivity activity) {
+
         return new ViewModelProvider(activity, activity.getDefaultViewModelProviderFactory());
     }
 

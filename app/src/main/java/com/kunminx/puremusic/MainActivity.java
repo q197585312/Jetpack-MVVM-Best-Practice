@@ -18,15 +18,14 @@ package com.kunminx.puremusic;
 
 import android.os.Bundle;
 
-import androidx.core.view.GravityCompat;
-import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-
 import com.kunminx.puremusic.bridge.state.MainActivityViewModel;
 import com.kunminx.puremusic.databinding.ActivityMainBinding;
 import com.kunminx.puremusic.ui.base.BaseActivity;
+
+import androidx.core.view.GravityCompat;
+import androidx.databinding.DataBindingUtil;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 /**
  * Create by KunMinX at 19/10/16
@@ -45,7 +44,6 @@ public class MainActivity extends BaseActivity {
         mMainActivityViewModel = getActivityViewModelProvider(this).get(MainActivityViewModel.class);
 
         // TODO tip 1: 此处通过 DataBinding 来规避 潜在的 视图调用的一致性问题，
-
         // 因为本项目采用 横、竖 两套布局，且不同布局的控件存在差异，
         // 在 DataBinding 适配器模式的加持下，有绑定就有绑定，没绑定也没什么大不了的，
         // 总之 不会因一致性问题造成 视图调用的空指针异常。
@@ -54,9 +52,12 @@ public class MainActivity extends BaseActivity {
 
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         mBinding.setLifecycleOwner(this);
+        getLifecycle().addObserver(new  MyPresenter());
+
         mBinding.setVm(mMainActivityViewModel);
 
         mSharedViewModel.activityCanBeClosedDirectly.observe(this, aBoolean -> {
+
             NavController nav = Navigation.findNavController(this, R.id.main_fragment_host);
             if (nav.getCurrentDestination() != null && nav.getCurrentDestination().getId() != R.id.mainFragment) {
                 nav.navigateUp();
@@ -72,9 +73,7 @@ public class MainActivity extends BaseActivity {
         });
 
         // TODO tip 4：同 tip 2.
-
         // TODO tip 5: 同 tip 1，这边我将 drawer 的 open 和 close 都放在 bindingAdapter 中操作，
-
         // 规避了视图的一致性问题，因为 横屏布局 根本就没有 drawerLayout，此处如果用传统的视图调用方式，会很容易疏忽而造成空引用。
 
         mSharedViewModel.openOrCloseDrawer.observe(this, aBoolean -> {
